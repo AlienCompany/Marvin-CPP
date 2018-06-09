@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.4)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/ArduinoToolchain.cmake)
 
-set(COMMON_CPPS PhysicalLeg.cpp Legs.cpp Leg.cpp)
-set(COMMON_HS PhysicalLeg.h Legs.h LegState.h Side.h Leg.h)
+set(COMMON_CPPS PhysicalLeg.cpp Legs.cpp Leg.cpp RemoteLeg.cpp)
+set(COMMON_HS PhysicalLeg.h Legs.h LegState.h Side.h Leg.h RemoteLeg.h)
 
 set(PROJECT_NAME_BIS MarvinBis)
 project(${PROJECT_NAME_BIS})
