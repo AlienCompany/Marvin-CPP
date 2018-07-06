@@ -5,7 +5,7 @@
 #ifndef MARVIN_SIDE_H
 #define MARVIN_SIDE_H
 
-enum SIDE{
+enum Side{
     RIGHT,
     LEFT
 };

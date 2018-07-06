@@ -13,7 +13,10 @@ private:
 protected:
 
 public:
+    RemoteLeg(Side side);
+    virtual ~RemoteLeg();
 
+    virtual LegState getLegState() const ;
 };
 
 

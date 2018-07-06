@@ -6,25 +6,33 @@
 
 #include "LegState.h"
 #include "Leg.h"
+#include <Servo.h>
 
 
-class PhysicalLeg: public Leg{
+class PhysicalLeg : public Leg {
 private:
 
 protected:
-    int PIN_HIP;
-    int PIN_KNEE;
-    int PIN_ANKLE;
-    int PIN_FOOT;
 
-    float degHip;
-    float degKnee;
-    float degAnkle;
-    float degFoot;
+    Servo *servoHip;
+    Servo *servoKnee;
+    Servo *servoAnkle;
+    Servo *servoFoot;
+
+    const int PIN_HIP;
+    const int PIN_KNEE;
+    const int PIN_ANKLE;
+    const int PIN_FOOT;
+
 public:
 
-    PhysicalLeg();
+    PhysicalLeg(int PIN_HIP, int PIN_KNEE, int PIN_ANKLE, int PIN_FOOT, Side side);
+
     virtual ~PhysicalLeg();
+
+    virtual LegState getLegState() const;
+
+    virtual void init();
 
 };
 
