@@ -16,28 +16,48 @@ const uint8_t PIN_DIN = 4;
 
 MAX7219 *myMatrix;
 
-void setup(){
+const int PIN_BUTTON_1 = 7;
+bool stateButton1;
+bool oldStateButton1;
+bool stateDisplay;
 
-    myMatrix = new MAX7219(PIN_CLK,PIN_CS,PIN_DIN);
+void setup() {
+
+    myMatrix = new MAX7219(PIN_CLK, PIN_CS, PIN_DIN);
     myMatrix->init();
     myMatrix->setBrightness(5);
+    myMatrix->setShutdown(true);
+
+    pinMode(PIN_BUTTON_1, INPUT_PULLUP);
 
 
 }
 
-void loop(){
-    myMatrix->writeCharacter(CHAR_I);
-    delay(500);
-    myMatrix->writeCharacter(CHAR_HEART);
-    delay(500);
-    myMatrix->writeCharacter(CHAR_P);
-    delay(500);
-    myMatrix->writeCharacter(CHAR_S);
-    delay(500);
-    myMatrix->writeCharacter(CHAR_T);
-    delay(500);
-    myMatrix->writeCharacter(CHAR_J);
-    delay(500);
+void loop() {
 
+    stateButton1 = (bool) digitalRead(PIN_BUTTON_1);
 
+    if(stateButton1 == LOW && oldStateButton1 == HIGH) {
+
+        stateDisplay = !stateDisplay;
+
+        myMatrix->setShutdown(!stateDisplay);
+    }
+
+    if(stateDisplay) {
+
+        myMatrix->writeCharacter(CHAR_I);
+        delay(500);
+        myMatrix->writeCharacter(CHAR_HEART);
+        delay(500);
+        myMatrix->writeCharacter(CHAR_P);
+        delay(500);
+        myMatrix->writeCharacter(CHAR_S);
+        delay(500);
+        myMatrix->writeCharacter(CHAR_T);
+        delay(500);
+        myMatrix->writeCharacter(CHAR_J);
+        delay(500);
+    }
+    oldStateButton1 = stateButton1;
 }
