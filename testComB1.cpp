@@ -14,11 +14,11 @@ long endLedTime = 0;
 
 void onResave(Commande &c){
     switch(c.id){
-        case COMMANDE_ALLUMER_LED:
+        case TEST_COMMANDE_ALLUMER_LED:
             endLedTime = millis() + c.data;
             sendCommande(COMMANDE_RESAVE, c.data);
             break;
-        case COMMANDE_RESAVE:
+        default:
             break;
     }
 }
@@ -33,7 +33,7 @@ void loop(){
 
     if(nextSend <= millis()){
         nextSend += COMMANDE_INTERVAL;
-        sendCommande(COMMANDE_ALLUMER_LED, 750);
+        sendCommande(TEST_COMMANDE_ALLUMER_LED, 750);
     }
     
     digitalWrite(PIN_LED, endLedTime > millis());

@@ -7,8 +7,10 @@
 #define TEST2_COM_H
 
 enum CommandesId : uint8_t {
-    COMMANDE_ALLUMER_LED = 0x01, // data = time ms
-    COMMANDE_RESAVE = 0x02, // data = time ms
+
+
+    TEST_COMMANDE_ALLUMER_LED = 0xF1, // data = time ms
+    TEST_COMMANDE_RESAVE = 0xF2, // data = time ms
 };
 
 struct Commande{
