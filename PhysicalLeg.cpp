@@ -4,20 +4,12 @@
 
 #include "PhysicalLeg.h"
 
-PhysicalLeg::PhysicalLeg(int PIN_HIP, int PIN_KNEE, int PIN_ANKLE, int PIN_FOOT, Side side)
-        : Leg(side), PIN_HIP(PIN_HIP), PIN_KNEE(PIN_KNEE), PIN_ANKLE(PIN_ANKLE), PIN_FOOT(PIN_FOOT) {
-
-    servoHip = new Servo();
-    servoKnee = new Servo();
-    servoAnkle = new Servo();
-    servoFoot = new Servo();
-}
 
 PhysicalLeg::~PhysicalLeg() {
-    delete servoHip;
-    delete servoKnee;
-    delete servoAnkle;
-    delete servoFoot;
+    delete motorHip;
+    delete motorKnee;
+    delete motorAnkle;
+    delete motorFoot;
 }
 
 LegState PhysicalLeg::getLegState() const {
@@ -25,10 +17,45 @@ LegState PhysicalLeg::getLegState() const {
 
 void PhysicalLeg::init() {
     Leg::init();
-    servoHip->attach(PIN_HIP);
-    servoKnee->attach(PIN_KNEE);
-    servoAnkle->attach(PIN_ANKLE);
-    servoFoot->attach(PIN_FOOT);
+    motorHip->init();
+    motorKnee->init();
+    motorAnkle->init();
+    motorFoot->init();
+}
+
+PhysicalLeg::PhysicalLeg(Side side, Motor *motorHip, Motor *motorKnee, Motor *motorAnkle, Motor *motorFoot)
+        : Leg(side), motorHip(motorHip), motorKnee(motorKnee), motorAnkle(motorAnkle), motorFoot(motorFoot) {}
+
+int PhysicalLeg::getDegHip() const {
+    return motorHip->getAngle();
+}
+
+void PhysicalLeg::setDegHip(int degHip) {
+    motorHip->setAngle(degHip);
+}
+
+int PhysicalLeg::getDegKnee() const {
+    return motorKnee->getAngle();
+}
+
+void PhysicalLeg::setDegKnee(int degKnee) {
+    motorKnee->setAngle(degKnee);
+}
+
+int PhysicalLeg::getDegAnkle() const {
+    return motorAnkle->getAngle();
+}
+
+void PhysicalLeg::setDegAnkle(int degAnkle) {
+    motorAnkle->setAngle(degAnkle);
+}
+
+int PhysicalLeg::getDegFoot() const {
+    return motorFoot->getAngle();
+}
+
+void PhysicalLeg::setDegFoot(int degFoot) {
+    motorFoot->setAngle(degFoot);
 }
 
 

@@ -2,13 +2,42 @@
 // Created by ferna on 05/07/2018.
 //
 
-#ifndef MARVINTEST_MOTOR_H
-#define MARVINTEST_MOTOR_H
+#ifndef MOTOR_H
+#define MOTOR_H
 
+#include <Arduino.h>
+#include <Servo.h>
 
-class Motor {
+class Motor{
+private:
+    Servo* servo;
+    int pin;
+    int offset = 0;
+    int angle = 0;
 
+public:
+
+    Motor(int pin, int offset, int angle);
+    Motor(int pin, int offset);
+    Motor(int pin);
+
+    void init();
+
+    void motorOff();
+    void motorOn();
+
+    void addAngle(int angle);
+
+    int getOffset() const;
+
+    void setOffset(int offset);
+
+    int getAngle() const;
+
+    void setAngle(int angle);
+
+    void update();
 };
 
 
-#endif //MARVINTEST_MOTOR_H
+#endif //MOTOR_H

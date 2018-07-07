@@ -7,8 +7,10 @@ set(COMMON_CPPS
         Legs.cpp
         Leg.cpp
         RemoteLeg.cpp
+        Motor.cpp
         Max7219.cpp
-        HcSr04.cpp)
+        HcSr04.cpp
+        Util.cpp)
 set(COMMON_HS
         Com.h
         PhysicalLeg.h
@@ -17,9 +19,10 @@ set(COMMON_HS
         Side.h
         Leg.h
         RemoteLeg.h
-        Max7219.h
         Motor.h
-        HcSr04.h)
+        Max7219.h
+        HcSr04.h
+        Util.h)
 
 set(PROJECT_BOARD pro)
 

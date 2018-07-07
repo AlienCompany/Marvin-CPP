@@ -11,7 +11,7 @@
 #ifndef UNTITLED_MAX7219_H
 #define UNTITLED_MAX7219_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 enum MAX7219_ADDRESS {
     ADDR_NO_OP = 0x00,

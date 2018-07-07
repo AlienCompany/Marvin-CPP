@@ -1,5 +1,6 @@
 #include <Arduino.h>
-#include <Servo.h>!
+#include <Servo.h>
+#include "Motor.h"
 
 #define CONF_MOTEUR false  //false = board 1     true = board 2
 //           A   B   C   D   E   F   G   H
@@ -17,69 +18,6 @@ const int OFFSET_MOTOR[NB_MOTOR] = {-23, -8, 78, -13};
 
 int currentAlimMotor = 0;
 
-class Motor{
-public:
-    Servo* servo;
-    int pin;
-    int number;
-    int offset = 0;
-    int angle = 0;
-
-    Motor(int number, int PIN_MOTOR):number(number),pin(PIN_MOTOR){
-        servo = new Servo();
-    }
-
-    Servo * getServo(){
-        return servo;
-    }
-
-    void motorOff(){
-        servo->detach();
-        pinMode(pin, INPUT);
-    }
-    void motorOn(){
-        servo->attach(pin);
-        update();
-    }
-
-    int getAngle(){
-        return offset + angle;
-    }
-    void setOffset(int offset){
-        Motor::offset = offset;
-        update();
-    }
-    void saveOffset(){
-        saveOffset(getAngle());
-    }
-    void saveOffset(int angle){
-        offset = angle - ANGLE_MOTOR[number];
-        Motor::angle = ANGLE_MOTOR[number];
-        update();
-    }
-    void addAngle(int angle){
-        setAngle(Motor::angle + angle);
-    }
-    void setAngle(int angle){
-        Motor::angle = angle;
-        update();
-    }
-
-    void update(){
-        if(servo->attached()) {
-            servo->write(getAngle());
-        }
-    }
-
-    void print(){
-        Serial.print("Motor ");
-        Serial.print(number);
-        Serial.print(" :\t offset:");
-        Serial.print(offset);
-        Serial.print("\t angle:");
-        Serial.println(angle);
-    }
-};
 /** Mesure la référence interne à 1.1 volts */
 unsigned int analogReadReference(void) {
 

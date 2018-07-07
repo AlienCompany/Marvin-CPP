@@ -6,6 +6,7 @@
 
 #include "LegState.h"
 #include "Leg.h"
+#include "Motor.h"
 #include <Servo.h>
 
 
@@ -14,25 +15,32 @@ private:
 
 protected:
 
-    Servo *servoHip;
-    Servo *servoKnee;
-    Servo *servoAnkle;
-    Servo *servoFoot;
-
-    const int PIN_HIP;
-    const int PIN_KNEE;
-    const int PIN_ANKLE;
-    const int PIN_FOOT;
+    Motor *motorHip;
+    Motor *motorKnee;
+    Motor *motorAnkle;
+    Motor *motorFoot;
 
 public:
 
-    PhysicalLeg(int PIN_HIP, int PIN_KNEE, int PIN_ANKLE, int PIN_FOOT, Side side);
+    PhysicalLeg(Side side, Motor *motorHip, Motor *motorKnee, Motor *motorAnkle, Motor *motorFoot);
 
     virtual ~PhysicalLeg();
 
     virtual LegState getLegState() const;
 
     virtual void init();
+
+    virtual int getDegHip() const;
+    virtual void setDegHip(int degHip);
+
+    virtual int getDegKnee() const;
+    virtual void setDegKnee(int degKnee);
+
+    virtual int getDegAnkle() const;
+    virtual void setDegAnkle(int degAnkle);
+
+    virtual int getDegFoot() const;
+    virtual void setDegFoot(int degFoot);
 
 };
 
