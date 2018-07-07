@@ -77,6 +77,7 @@ public:
 
     // data_char must be array with 8 byte
     void writeCharacter(const uint8_t *data_char);
+    void writeCharacter(const uint8_t *data_char, int decalage);
 
     bool isShutdown() const;
 
@@ -99,6 +100,7 @@ public:
     void setScanLimit(uint8_t scanLimit);
 
     virtual ~ MAX7219() = default;
+
 };
 
 

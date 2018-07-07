@@ -70,8 +70,13 @@ void MAX7219::writeDigit(const uint8_t digitNumber, const uint8_t dataLigne) {
 }
 
 void MAX7219::writeCharacter(const uint8_t *data_char) {
-    for (uint8_t i = 0; i < 8; i++) {
-        writeDigit(i, data_char[i]);
+    writeCharacter(data_char, 0);
+}
+
+void MAX7219::writeCharacter(const uint8_t *data_char, int decalage) {
+    const uint8_t limit = min(8,8-decalage);
+    for (uint8_t i = max(0,-decalage); i < limit; i++) {
+        writeDigit(i+decalage, data_char[i]);
     }
 }
 

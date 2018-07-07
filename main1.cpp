@@ -7,6 +7,7 @@
 #include "Max7219.h"
 #include "Util.h"
 
+const uint8_t CHAR_EMPTY[8] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 const uint8_t CHAR_I[8] = {0x0, 0x81, 0x81, 0xFF, 0x81, 0x81, 0x0, 0x0};
 const uint8_t CHAR_HEART[8] = {0xC, 0x1E, 0x3E, 0x7C, 0x7C, 0x3E, 0x1E, 0xC};
 const uint8_t CHAR_P[8] = {0x0, 0x0, 0xFF, 0x11, 0x11, 0x11, 0xE, 0x0};
@@ -21,8 +22,8 @@ const uint8_t PIN_CLK = 3;
 const uint8_t PIN_DIN = 4;
 
 const uint8_t PIN_MOTOR[] = {10, 11, 6, 5};
-const int ANGLE_MOTOR[] = {90, 90, 90, 90};
 const int OFFSET_MOTOR[] = {-25, 10, 37, -22};
+const int ANGLE_MOTOR[] = {90, 90, 90, 90};
 
 float radar();
 
@@ -33,10 +34,53 @@ RemoteLeg *rightLeg;
 
 MAX7219 *myMatrix;
 
+const uint8_t* DEFILEMNT_I_LOVE_PSTJ_CHARS[]={CHAR_I, CHAR_HEART, CHAR_P, CHAR_S, CHAR_T, CHAR_J};
+
+struct defilement{
+    const uint8_t ** chars;
+    const uint8_t longeur;
+};
+const defilement DEFILEMNT_I_LOVE_PSTJ = {DEFILEMNT_I_LOVE_PSTJ_CHARS, 6};
+const defilement DEFILEMNT_I_LOVE_PSTJ2 = {DEFILEMNT_I_LOVE_PSTJ_CHARS, 6};
+
+const defilement* currentDefilement = &DEFILEMNT_I_LOVE_PSTJ;
+
+uint8_t matrixAvancement = 0;
+int8_t matrixAvancementDecalage = 0;
+long nextAvancement = 0;
+int matrixDeley = 100;
+
+void matrixRefresh(){
+    if(millis() > nextAvancement){
+        nextAvancement += matrixDeley;
+        matrixAvancementDecalage ++;
+        if(matrixAvancementDecalage == 8){
+            matrixAvancement ++;
+            matrixAvancementDecalage = 0;
+            if(matrixAvancement >= currentDefilement->longeur) {
+                matrixAvancementDecalage = -8;
+                matrixAvancement = 0;
+                myMatrix->writeCharacter(CHAR_EMPTY);
+            }
+        }
+        const uint8_t * currentChar = currentDefilement->chars[matrixAvancement];
+        const uint8_t * nextChar = CHAR_EMPTY;
+
+       if(matrixAvancement + 1 < currentDefilement->longeur){
+           nextChar = currentDefilement->chars[matrixAvancement + 1];
+       }
+        myMatrix->writeCharacter(currentChar, matrixAvancementDecalage);
+        myMatrix->writeCharacter(currentChar, matrixAvancementDecalage-8);
+    }
+}
 
 void setup() {
+    Motor* motorHip = new Motor(PIN_MOTOR[0], OFFSET_MOTOR[0], ANGLE_MOTOR[0]);
+    Motor* motorKnee = new Motor(PIN_MOTOR[1], OFFSET_MOTOR[1], ANGLE_MOTOR[1]);
+    Motor* motorAnkle = new Motor(PIN_MOTOR[2], OFFSET_MOTOR[2], ANGLE_MOTOR[2]);
+    Motor* motorFoot = new Motor(PIN_MOTOR[3], OFFSET_MOTOR[3], ANGLE_MOTOR[3]);
 
-    leftLeg = new PhysicalLeg(10, 11, 6, 5, LEFT);
+    leftLeg = new PhysicalLeg(LEFT, motorHip,motorKnee,motorAnkle,motorFoot);
     leftLeg->init();
 
     myMatrix = new MAX7219(PIN_CLK, PIN_CS, PIN_DIN);
@@ -61,21 +105,6 @@ void onResave(Commande &commande){
 void loop() {
 
     checkResave();
-
-    if(stateDisplay) {
-
-        myMatrix->writeCharacter(CHAR_I);
-        delay(500);
-        myMatrix->writeCharacter(CHAR_HEART);
-        delay(500);
-        myMatrix->writeCharacter(CHAR_P);
-        delay(500);
-        myMatrix->writeCharacter(CHAR_S);
-        delay(500);
-        myMatrix->writeCharacter(CHAR_T);
-        delay(500);
-        myMatrix->writeCharacter(CHAR_J);
-        delay(500);
-    }
+    if(stateDisplay)matrixRefresh();
 
 }
