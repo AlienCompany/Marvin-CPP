@@ -31,7 +31,7 @@ void MAX7219::writeScanLimit() {
 }
 
 void MAX7219::writeShutDown() {
-    write(ADDR_SHUTDOWN, isShutdown ? (char) 0x00 : (char) 0x01);
+    write(ADDR_SHUTDOWN, shutdown ? (char) 0x00 : (char) 0x01);
 }
 
 void MAX7219::writeTestMode() {
@@ -75,13 +75,13 @@ void MAX7219::writeCharacter(const uint8_t *data_char) {
     }
 }
 
-bool MAX7219::isIsShutdown() const {
-    return isShutdown;
+bool MAX7219::isShutdown() const {
+    return shutdown;
 }
 
 
-void MAX7219::setIsShutdown(bool isShutdown) {
-    MAX7219::isShutdown = isShutdown;
+void MAX7219::setShutdown(bool isShutdown) {
+    MAX7219::shutdown = isShutdown;
     if (isInit) writeShutDown();
 }
 

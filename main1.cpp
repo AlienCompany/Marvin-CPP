@@ -17,8 +17,12 @@ void setup() {
     leftLeg = new PhysicalLeg(10, 11, 6, 5);
     leftLeg->init();
 
+
+
 }
 
 void loop() {
+
+
 
 }

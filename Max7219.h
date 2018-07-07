@@ -45,7 +45,7 @@ private:
     const uint8_t PIN_DIN;
 
     bool isInit = false;
-    bool isShutdown = false;
+    bool shutdown = false;
     uint8_t brightness = 0x03;
     MAX7219_TEST testMode = NORMAL_OPERATION;
     uint8_t decodeMode = 0x00;
@@ -78,9 +78,9 @@ public:
     // data_char must be array with 8 byte
     void writeCharacter(const uint8_t *data_char);
 
-    bool isIsShutdown() const;
+    bool isShutdown() const;
 
-    void setIsShutdown(bool isShutdown);
+    void setShutdown(bool isShutdown);
 
     uint8_t getBrightness() const;
 
