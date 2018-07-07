@@ -10,7 +10,7 @@ const int PIN_TRIG = 12;
 const int PIN_ECHO = 13;
 
 const uint8_t PIN_MOTOR[] = {11, 10, 6, 5};
-const int OFFSET_MOTOR[] = {-23, -8, 78, -13};
+const int OFFSET_MOTOR[] = {-9, -10, 78, -16};
 const int ANGLE_MOTOR[] = {90, 90, 90, 90};
 
 const uint8_t PIN_BUTTON_MATRIX = 8;

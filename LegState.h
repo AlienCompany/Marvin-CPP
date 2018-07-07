@@ -13,9 +13,9 @@ enum LegState {
 };
 
 const int LEG_STATES_MOTORS_DATA[4][4] = {
-    {0, 0, 0, 0},   // NONE
-    {0, 0, 0, 0},      // FLEXION
-    {0, 0, 0, 0},      // EXTENSION
-    {0, 0, 0, 0}       // TILT
+    {90, 90, 90, 90},      // NONE
+    {-28, -13, 90, 90},      // FLEXION
+    {30, 15, 90, 90},      // EXTENSION
+    {90, 90, 90, -16}       // TILT
 };
 #endif //MARVIN_LEGSTATE_H
