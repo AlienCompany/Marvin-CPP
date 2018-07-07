@@ -1,8 +1,25 @@
 cmake_minimum_required(VERSION 2.8.4)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/ArduinoToolchain.cmake)
 
-set(COMMON_CPPS PhysicalLeg.cpp Legs.cpp Leg.cpp RemoteLeg.cpp Max7219.cpp HcSr04.cpp)
-set(COMMON_HS PhysicalLeg.h Legs.h LegState.h Side.h Leg.h RemoteLeg.h Max7219.h Motor.h HcSr04.h)
+set(COMMON_CPPS
+        Com.cpp
+        PhysicalLeg.cpp
+        Legs.cpp
+        Leg.cpp
+        RemoteLeg.cpp
+        Max7219.cpp
+        HcSr04.cpp)
+set(COMMON_HS
+        Com.h
+        PhysicalLeg.h
+        Legs.h
+        LegState.h
+        Side.h
+        Leg.h
+        RemoteLeg.h
+        Max7219.h
+        Motor.h
+        HcSr04.h)
 
 set(PROJECT_BOARD pro)
 
@@ -40,49 +57,24 @@ set(${PROJECT_BOARD}.upload.maximum_data_size 2048)
 
 
 set(PORT COM15)
+# ==================== ALL TEST : BEGIN ====================
+FOREACH(TESTNAME "ComB1" "ComB2" "MatriceLed" "Moteur" "UltraSon")
+    # -------------------- MarvinTest : BEGIN --------------------
+    set(PROJECT_NAME_TEST MarvinTest${TESTNAME})
+    project(${PROJECT_NAME_TEST})
 
-# ==================== MarvinTest : BEGIN ====================
-set(PROJECT_NAME_TEST MarvinTest)
-project(${PROJECT_NAME_TEST})
+    print_board_list()
+    #### Uncomment below additional settings as needed.
+    set(${PROJECT_NAME_TEST}_SRCS test${TESTNAME}.cpp ${COMMON_CPPS})
+    set(${PROJECT_NAME_TEST}_HDRS ${COMMON_HS})
+    set(${PROJECT_NAME_TEST}_BOARD ${PROJECT_BOARD})
+    set(${PROJECT_NAME_TEST}_PORT ${PORT})
+    set(${PROJECT_NAME_TEST}_ARDLIBS Servo)
 
-print_board_list()
-#### Uncomment below additional settings as needed.
-set(${PROJECT_NAME_TEST}_SRCS testMoteur.cpp ${COMMON_CPPS})
-set(${PROJECT_NAME_TEST}_HDRS ${COMMON_HS})
-set(${PROJECT_NAME_TEST}_BOARD ${PROJECT_BOARD})
-set(${PROJECT_NAME_TEST}_PORT ${PORT})
-set(${PROJECT_NAME_TEST}_ARDLIBS Servo)
-
-generate_arduino_firmware(${PROJECT_NAME_TEST})
-# ==================== MarvinTest : END ====================
-
-# ==================== MarvinTestLed : BEGIN ====================
-set(PROJECT_NAME_TEST_LED MarvinTestLed)
-project(${PROJECT_NAME_TEST_LED})
-
-#### Uncomment below additional settings as needed.
-set(${PROJECT_NAME_TEST_LED}_SRCS testMatriceLed.cpp ${COMMON_CPPS})
-set(${PROJECT_NAME_TEST_LED}_HDRS ${COMMON_HS})
-set(${PROJECT_NAME_TEST_LED}_BOARD ${PROJECT_BOARD})
-set(${PROJECT_NAME_TEST_LED}_PORT ${PORT})
-set(${PROJECT_NAME_TEST_LED}_ARDLIBS Servo)
-
-generate_arduino_firmware(${PROJECT_NAME_TEST_LED})
-# ==================== MarvinTestLed : END ====================
-
-# ==================== MarvinTestUS : BEGIN ====================
-set(PROJECT_NAME_TEST_US MarvinTestUs)
-project(${PROJECT_NAME_TEST_US})
-
-#### Uncomment below additional settings as needed.
-set(${PROJECT_NAME_TEST_US}_SRCS testUltraSon.cpp ${COMMON_CPPS})
-set(${PROJECT_NAME_TEST_US}_HDRS ${COMMON_HS})
-set(${PROJECT_NAME_TEST_US}_BOARD ${PROJECT_BOARD})
-set(${PROJECT_NAME_TEST_US}_PORT ${PORT})
-set(${PROJECT_NAME_TEST_US}_ARDLIBS Servo)
-
-generate_arduino_firmware(${PROJECT_NAME_TEST_US})
-# ==================== MarvinTestUS : END ====================
+    generate_arduino_firmware(${PROJECT_NAME_TEST})
+    # -------------------- MarvinTest : END --------------------
+ENDFOREACH()
+# ==================== ALL TEST : END ====================
 
 # ==================== MarvinBis : BEGIN ====================
 set(PROJECT_NAME_BIS MarvinBis)
