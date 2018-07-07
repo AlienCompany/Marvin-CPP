@@ -6,6 +6,13 @@
 #ifndef TEST2_COM_H
 #define TEST2_COM_H
 
+enum MotorId{
+    MOTOR_HIP = 0x01,
+    MOTOR_KNEE = 0x02,
+    MOTOR_ANKLE = 0x03,
+    MOTOR_FOOT = 0x04,
+};
+
 enum ButtonId{
     BUTTON_MATRIX = 0x01,
     BUTTON_MOTOR = 0x02,
@@ -14,6 +21,7 @@ enum ButtonId{
 
 enum CommandesId : uint8_t {
     COMMANDE_BUTTON = 0x01, // data is number button
+    COMMANDE_LEG = 0x02, // data1 = motorId, data2 = angleMoteur
 
     TEST_COMMANDE_ALLUMER_LED = 0xF1, // data = time ms
     TEST_COMMANDE_RESAVE = 0xF2,
