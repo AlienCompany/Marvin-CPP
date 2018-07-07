@@ -6,6 +6,8 @@ set(COMMON_CPPS
         PhysicalLeg.cpp
         Legs.cpp
         Leg.cpp
+        LegController.cpp
+        LegState.cpp
         RemoteLeg.cpp
         Motor.cpp
         Max7219.cpp
@@ -15,6 +17,7 @@ set(COMMON_HS
         Com.h
         PhysicalLeg.h
         Legs.h
+        LegController.h
         LegState.h
         Side.h
         Leg.h

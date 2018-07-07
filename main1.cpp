@@ -39,8 +39,9 @@ const defilement *currentDefilement = &DEFILEMNT_I_LOVE_PSTJ;
 
 bool stateDisplay = false;
 
-PhysicalLeg *leftLeg;
-RemoteLeg *rightLeg;
+Leg *leftLeg;
+Leg *rightLeg;
+Legs *legs;
 
 MAX7219 *myMatrix;
 
@@ -85,7 +86,9 @@ void setup() {
 
 
     leftLeg = new PhysicalLeg(LEFT, motorHip, motorKnee, motorAnkle, motorFoot);
-    leftLeg->init();
+    rightLeg = new RemoteLeg(RIGHT);
+    legs = new Legs(leftLeg, rightLeg);
+    legs->init();
 
     motorHip->motorOff();
     motorKnee->motorOff();
@@ -112,6 +115,12 @@ void onResave(Commande &commande) {
                     matrixAvancement = 0;
                     matrixAvancementDecalage = 0;
                     nextAvancement = millis() + matrixDeley;
+                }
+            }else if(commande.data == BUTTON_MOTOR) {
+                if(legs->getCurrentAnnimation() == &LEG_ANNIM_WORLK){
+                    legs->changeAnnimation(&LEG_ANNIM_WAIT, true);
+                }else{
+                    legs->changeAnnimation(&LEG_ANNIM_WORLK, true);
                 }
             }
             break;

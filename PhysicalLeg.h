@@ -26,8 +26,6 @@ public:
 
     virtual ~PhysicalLeg();
 
-    virtual LegState getLegState() const;
-
     virtual void init();
 
     virtual int getDegHip() const;

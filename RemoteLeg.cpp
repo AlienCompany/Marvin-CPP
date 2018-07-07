@@ -11,7 +11,3 @@ RemoteLeg::RemoteLeg(Side side): Leg(side){
 RemoteLeg::~RemoteLeg() {
 
 }
-
-LegState RemoteLeg::getLegState() const {
-    return NONE;
-}

@@ -12,9 +12,6 @@ PhysicalLeg::~PhysicalLeg() {
     delete motorFoot;
 }
 
-LegState PhysicalLeg::getLegState() const {
-}
-
 void PhysicalLeg::init() {
     Leg::init();
     motorHip->init();

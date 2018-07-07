@@ -17,8 +17,6 @@ public:
     RemoteLeg(Side side);
     virtual ~RemoteLeg();
 
-    virtual LegState getLegState() const ;
-
     virtual int getDegHip() const{
         return degHip;
     }
@@ -39,7 +37,7 @@ public:
     virtual int getDegAnkle() const{
         return degAnkle;
     }
-    virtual void degAnkle_(int degAnkle_){
+    virtual void setDegAnkle(int degAnkle_){
         degAnkle = degAnkle_;
         sendCommande(COMMANDE_LEG, MOTOR_ANKLE, (uint16_t)degAnkle_);
 

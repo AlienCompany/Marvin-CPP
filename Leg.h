@@ -28,8 +28,6 @@ public:
     virtual int getDegFoot() const =0;
     virtual void setDegFoot(int degFoot) =0;
 
-    virtual LegState getLegState() const = 0 ;
-
     virtual void init();
 
     Side getSide() const;
