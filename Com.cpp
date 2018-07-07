@@ -4,11 +4,11 @@
 
 #include "Com.h"
 
-void checkResave(){
+void checkReceive(){
     while(Serial.available()){
         Commande commande;
         Serial.readBytes((byte *) &commande, sizeof(Commande));
-        onResave(commande);
+        onReceive(commande);
     }
 }
 
@@ -27,7 +27,7 @@ void sendCommande(CommandesId id, uint8_t data0, uint8_t data1, uint8_t data2, u
     sendCommandeByte((uint8_t *)&c, sizeof(Commande_8));
 }
 void sendCommandeByte(uint8_t *c, uint8_t length){
-    checkResave();
+    checkReceive();
     for(int i=0;i<length;i++)
         Serial.write(c[i]);
 }

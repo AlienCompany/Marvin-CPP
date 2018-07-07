@@ -104,7 +104,7 @@ void setup() {
 
 }
 
-void onResave(Commande &commande) {
+void onReceive(Commande &commande) {
     switch (commande.id) {
         case COMMANDE_BUTTON:
             if(commande.data == BUTTON_MATRIX) {
@@ -131,7 +131,7 @@ void onResave(Commande &commande) {
 
 void loop() {
 
-    checkResave();
+    checkReceive();
 
     if (stateDisplay)matrixRefresh();
 

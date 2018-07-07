@@ -12,7 +12,7 @@ const long COMMANDE_INTERVAL = 1000;
 long nextSend = 1000;
 long endLedTime = 0;
 
-void onResave(Commande &c){
+void onReceive(Commande &c){
     switch(c.id){
         case TEST_COMMANDE_ALLUMER_LED:
             endLedTime = millis() + c.data;
@@ -29,7 +29,7 @@ void setup(){
 }
 
 void loop(){
-    checkResave();
+    checkReceive();
 
     if(nextSend <= millis()){
         nextSend += COMMANDE_INTERVAL;

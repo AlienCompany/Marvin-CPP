@@ -46,9 +46,9 @@ struct Commande_8{
     uint8_t data3;
 };
 
-void onResave(Commande &commande);
+void onReceive(Commande &commande);
 
-void checkResave();
+void checkReceive();
 
 void sendCommande(CommandesId id, uint32_t data);
 void sendCommande(CommandesId id, uint16_t data0, uint16_t data1);

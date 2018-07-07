@@ -17,6 +17,10 @@ const uint8_t PIN_BUTTON_MATRIX = 8;
 bool stateButtonMatrix;
 bool oldStateButtonMatrix;
 
+const uint8_t PIN_BUTTON_WALK = 2;
+bool stateButtonWalk;
+bool oldStateButtonWalk;
+
 PhysicalLeg *rightLeg;
 
 void setup() {
@@ -30,10 +34,14 @@ void setup() {
     rightLeg->init();
 
     pinMode(PIN_BUTTON_MATRIX, INPUT_PULLUP);
+    pinMode(PIN_BUTTON_WALK, INPUT_PULLUP);
+    pinMode(3, OUTPUT);
+
+    digitalWrite(3,LOW);
 
 }
 
-void onResave(Commande &commande) {
+void onReceive(Commande &commande) {
     switch (commande.id) {
         case COMMANDE_LEG:
             Commande_16 commande_16 = to_16(commande);
@@ -57,9 +65,11 @@ void onResave(Commande &commande) {
 
 void loop() {
 
-    checkResave();
+    checkReceive();
 
     stateButtonMatrix = (bool) digitalRead(PIN_BUTTON_MATRIX);
+    stateButtonWalk = (bool) digitalRead(PIN_BUTTON_WALK);
+
 
     if(stateButtonMatrix == LOW && oldStateButtonMatrix == HIGH){
 
@@ -67,5 +77,12 @@ void loop() {
 
     }
 
+    if(stateButtonWalk == LOW && oldStateButtonWalk == HIGH){
+
+        sendCommande(COMMANDE_LEG,BUTTON_MOTOR);
+
+    }
+
     oldStateButtonMatrix = stateButtonMatrix;
+    oldStateButtonWalk = stateButtonWalk;
 }
