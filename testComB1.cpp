@@ -16,19 +16,25 @@ void onResave(Commande &c){
     switch(c.id){
         case COMMANDE_ALLUMER_LED:
             endLedTime = millis() + c.data;
+            sendCommande(COMMANDE_RESAVE, c.data);
+            break;
+        case COMMANDE_RESAVE:
             break;
     }
 }
 
 void setup(){
+    Serial.begin(9600);
     pinMode(PIN_LED, OUTPUT);
 }
 
 void loop(){
-    if(nextSend >= millis()){
+    checkResave();
+
+    if(nextSend <= millis()){
         nextSend += COMMANDE_INTERVAL;
         sendCommande(COMMANDE_ALLUMER_LED, 750);
     }
     
-    digitalWrite(PIN_LED, endLedTime < millis());
+    digitalWrite(PIN_LED, endLedTime > millis());
 }

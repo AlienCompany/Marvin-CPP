@@ -7,7 +7,8 @@
 #define TEST2_COM_H
 
 enum CommandesId : uint8_t {
-    COMMANDE_ALLUMER_LED = 0x01, // data = time
+    COMMANDE_ALLUMER_LED = 0x01, // data = time ms
+    COMMANDE_RESAVE = 0x02, // data = time ms
 };
 
 struct Commande{
@@ -29,13 +30,14 @@ struct Commande_8{
     uint8_t data3;
 };
 
-void onResave(Commande &c);
+void onResave(Commande &commande);
 
 void checkResave();
 
 void sendCommande(CommandesId id, uint32_t data);
 void sendCommande(CommandesId id, uint16_t data0, uint16_t data1);
 void sendCommande(CommandesId id, uint8_t data0, uint8_t data1, uint8_t data2, uint8_t data3);
+void sendCommandeByte(uint8_t *c, uint8_t length);
 
 Commande_16 to_16(Commande &commande);
 Commande_8 to_8(Commande &commande);

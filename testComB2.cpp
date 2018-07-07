@@ -13,23 +13,28 @@ const long COMMANDE_INTERVAL = 200;
 long nextSend = 1000;
 long endLedTime = 0;
 
-void onResave(Commande &c){
-    switch(c.id){
+void onResave(Commande &commande){
+    switch(commande.id){
         case COMMANDE_ALLUMER_LED:
-            endLedTime = millis() + c.data;
+            endLedTime = millis() + commande.data;
+            break;
+        case COMMANDE_RESAVE:
             break;
     }
 }
 
 void setup(){
+    Serial.begin(9600);
     pinMode(PIN_LED, OUTPUT);
 }
 
 void loop(){
-    if(nextSend >= millis()){
+    checkResave();
+
+    if(nextSend <= millis()){
         nextSend += COMMANDE_INTERVAL;
         sendCommande(COMMANDE_ALLUMER_LED, 100);
     }
 
-    digitalWrite(PIN_LED, endLedTime < millis());
+    digitalWrite(PIN_LED, endLedTime > millis());
 }

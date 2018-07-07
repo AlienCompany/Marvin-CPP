@@ -13,20 +13,23 @@ void checkResave(){
 }
 
 void sendCommande(CommandesId id, uint32_t data){
-    sendCommande(id, (uint16_t)(data >> 16),(uint16_t) data);
+    Commande c = {id, data};
+    sendCommandeByte((uint8_t *)&c, sizeof(Commande));
 }
 
 void sendCommande(CommandesId id, uint16_t data0, uint16_t data1){
-    sendCommande(id, (uint8_t)(data0 >> 8), (uint8_t)data0, (uint8_t)(data1 >> 8), (uint8_t)data1);
+    Commande_16 c = {id, data0, data1};
+    sendCommandeByte((uint8_t *)&c, sizeof(Commande_16));
 }
 
 void sendCommande(CommandesId id, uint8_t data0, uint8_t data1, uint8_t data2, uint8_t data3){
+    Commande_8 c = {id, data0, data1, data2, data3};
+    sendCommandeByte((uint8_t *)&c, sizeof(Commande_8));
+}
+void sendCommandeByte(uint8_t *c, uint8_t length){
     checkResave();
-    Serial.write(id);
-    Serial.write(data0);
-    Serial.write(data1);
-    Serial.write(data2);
-    Serial.write(data3);
+    for(int i=0;i<length;i++)
+        Serial.write(c[i]);
 }
 
 Commande_16 to_16(Commande &commande){
