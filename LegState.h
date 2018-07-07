@@ -35,10 +35,10 @@ struct legAnnim{
 };
 
 const LegStateAngle LEG_STATES_MOTORS_DATA[4] = {
-    {90, 90, 90, 90},      // NONE
-    {-28, -13, 90, 90},      // FLEXION
-    {30, 15, 90, 90},      // EXTENSION
-    {90, 90, 90, -16}       // TILT
+    {90,    90,     90, 90},      // NONE
+    {90-28, 90-13,  90, 90},      // FLEXION
+    {90+30, 90+15,  90, 90},      // EXTENSION
+    {90,    90,     90, 90-16}       // TILT
 };
 
 const legStep LEG_ANNIM_WAIT_STEPS[] = {
@@ -48,9 +48,14 @@ const legStep LEG_ANNIM_WAIT_STEPS[] = {
 
 const legStep LEG_ANNIM_WORLK_STEPS[] = {
 //     |wail L?|wait R?|  speed L |  speed R  | State L | State R |
-        {true,  true,   1. / 500,   1. / 500,   NONE,       NONE     },
-        {true,  true,   1. / 500,   0,          TILT,       NONE     },
-        {true,  false,  0,          1. / 500,   TILT,       EXTENSION}
+        {true,  true,   1. / 500,   1. / 500,   NONE,      NONE     },
+        {true,  true,   1. / 500,   0,          TILT,      NONE     },
+        {true,  true,  0,          1. / 500,   TILT,       FLEXION },
+        {true,  true,  1. / 500,   0       ,   EXTENSION,  FLEXION },
+        {true,  true,  1. / 500,   1. / 800,   NONE,       TILT },
+        {true,  true,  1. / 500,   0       ,   FLEXION,    TILT },
+        {true,  true,  0,          1. / 500,   FLEXION,    EXTENSION },
+        {true,  true,  1. / 800,   1. / 500,   TILT,       NONE},
 };
 
 const legAnnim LEG_ANNIM_WORLK = {LEG_ANNIM_WORLK_STEPS, sizeof(LEG_ANNIM_WORLK_STEPS) / sizeof(legStep)};

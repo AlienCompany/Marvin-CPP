@@ -118,7 +118,7 @@ void onResave(Commande &commande) {
                 }
             }else if(commande.data == BUTTON_MOTOR) {
                 if(legs->getCurrentAnnimation() == &LEG_ANNIM_WORLK){
-                    legs->changeAnnimation(&LEG_ANNIM_WAIT, true);
+                    legs->changeAnnimation(&LEG_ANNIM_WAIT, false);
                 }else{
                     legs->changeAnnimation(&LEG_ANNIM_WORLK, true);
                 }
