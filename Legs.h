@@ -23,60 +23,25 @@ private:
 public:
 
 
-    Legs(Leg *legLeft, Leg *legRight) : legLeft(legLeft), legRight(legRight) {
-        legControllerLeft = new LegController(legLeft, NONE);
-        legControllerRight = new LegController(legRight, NONE);
-    }
+    Legs(Leg *legLeft, Leg *legRight);
 
-    void init(){
-        legLeft->init();
-        legRight->init();
-    }
+    void init();
 
-    void refresh(){
-        legControllerRight->refrest();
-        legControllerLeft->refrest();
-        if(nextStepIndex >= 0){
-            legStep step = currentAnnimation->steps[nextStepIndex];
-            if((!step.waitSideLeft || legControllerLeft->isFix()) && (!step.waitSideRight || legControllerRight->isFix())){
-                if(step.vitesseRight)legControllerRight->setState(step.stateRight, step.vitesseRight);
-                if(step.vitesseLeft)legControllerLeft->setState(step.stateLeft, step.vitesseLeft);
-                nextStepIndex ++;
-                if(nextStepIndex >= currentAnnimation->nbStep) nextStepIndex = loopAnnimation ? 0 : -1;
-            }
-        }
-    }
+    void refresh();
 
-    void changeAnnimation(const legAnnim *newAnnimation, bool inloop){
-        nextStepIndex = 0;
-        currentAnnimation = newAnnimation;
-        loopAnnimation = inloop;
-    }
+    void changeAnnimation(const legAnnim *newAnnimation, bool inloop);
 
-    Leg *getLegLeft() const {
-        return legLeft;
-    }
+    Leg *getLegLeft() const;
 
-    Leg *getLegRight() const {
-        return legRight;
-    }
+    Leg *getLegRight() const;
 
-    const legAnnim *getCurrentAnnimation() const {
-        return currentAnnimation;
-    }
+    const legAnnim *getCurrentAnnimation() const;
 
-    bool isLoopAnnimation() const {
-        return loopAnnimation;
-    }
+    bool isLoopAnnimation() const;
 
-    int getNextStepIndex() const {
-        return nextStepIndex;
-    }
+    int getNextStepIndex() const;
 
-    virtual ~Legs() {
-        delete legControllerRight;
-        delete legControllerLeft;
-    }
+    virtual ~Legs();
 
 };
 
