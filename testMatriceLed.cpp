@@ -16,9 +16,9 @@ const uint8_t PIN_DIN = 4;
 
 MAX7219 *myMatrix;
 
-const int PIN_BUTTON_1 = 7;
+const int PIN_BUTTON_MATRIX = 7;
 bool stateButton1;
-bool oldStateButton1;
+bool oldStateButtonMatrix;
 bool stateDisplay;
 
 void setup() {
@@ -28,16 +28,16 @@ void setup() {
     myMatrix->setBrightness(5);
     myMatrix->setShutdown(true);
 
-    pinMode(PIN_BUTTON_1, INPUT_PULLUP);
+    pinMode(PIN_BUTTON_MATRIX, INPUT_PULLUP);
 
 
 }
 
 void loop() {
 
-    stateButton1 = (bool) digitalRead(PIN_BUTTON_1);
+    stateButton1 = (bool) digitalRead(PIN_BUTTON_MATRIX);
 
-    if(stateButton1 == LOW && oldStateButton1 == HIGH) {
+    if(stateButton1 == LOW && oldStateButtonMatrix == HIGH) {
 
         stateDisplay = !stateDisplay;
 
@@ -59,5 +59,5 @@ void loop() {
         myMatrix->writeCharacter(CHAR_J);
         delay(500);
     }
-    oldStateButton1 = stateButton1;
+    oldStateButtonMatrix = stateButton1;
 }

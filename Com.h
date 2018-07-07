@@ -6,11 +6,17 @@
 #ifndef TEST2_COM_H
 #define TEST2_COM_H
 
-enum CommandesId : uint8_t {
+enum ButtonId{
+    BUTTON_MATRIX = 0x01,
+    BUTTON_MOTOR = 0x02,
+    BUTTON_POWER = 0x03
+};
 
+enum CommandesId : uint8_t {
+    COMMANDE_BUTTON = 0x01, // data is number button
 
     TEST_COMMANDE_ALLUMER_LED = 0xF1, // data = time ms
-    TEST_COMMANDE_RESAVE = 0xF2, // data = time ms
+    TEST_COMMANDE_RESAVE = 0xF2,
 };
 
 struct Commande{
