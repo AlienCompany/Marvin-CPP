@@ -74,9 +74,9 @@ void MAX7219::writeCharacter(const uint8_t *data_char) {
 }
 
 void MAX7219::writeCharacter(const uint8_t *data_char, int decalage) {
-    const uint8_t limit = min(8,8-decalage);
-    for (uint8_t i = max(0,-decalage); i < limit; i++) {
-        writeDigit(i+decalage, data_char[i]);
+    const int limit = min(8,8+decalage);
+    for (int i = max(0,decalage); i < limit; i++) {
+        writeDigit(i-decalage, data_char[i]);
     }
 }
 

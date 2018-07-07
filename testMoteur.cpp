@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include <Servo.h>
-#include "Motor.h"
-
+#include "Util.h"
+/*
 #define CONF_MOTEUR false  //false = board 1     true = board 2
 //           A   B   C   D   E   F   G   H
 // OFFSET:  -25 10  +37 -22 -23 -8  +78  -13
-const int PIN_MOTOR[] = {10, 11, 6, 5};
+const int PIN_MOTOR[] = {11, 10, 6, 5};
 
 const int NB_MOTOR = sizeof(PIN_MOTOR)/ sizeof(*PIN_MOTOR);
 #if !CONF_MOTEUR
@@ -18,55 +18,83 @@ const int OFFSET_MOTOR[NB_MOTOR] = {-23, -8, 78, -13};
 
 int currentAlimMotor = 0;
 
-/** Mesure la référence interne à 1.1 volts */
-unsigned int analogReadReference(void) {
+bool changeMotor = true;
+bool showTention = true;
 
-    /* Elimine toutes charges résiduelles */
-#if defined(__AVR_ATmega328P__)
-    ADMUX = 0x4F;
-#elif defined(__AVR_ATmega2560__)
-    ADCSRB &= ~(1 << MUX5);
-  ADMUX = 0x5F;
-#elif defined(__AVR_ATmega32U4__)
-  ADCSRB &= ~(1 << MUX5);
-  ADMUX = 0x5F;
-#endif
-    delayMicroseconds(5);
+class MotorTest{
+public:
+    Servo* servo;
+    int pin;
+    int number;
+    int offset = 0;
+    int angle = 0;
 
-    /* Sélectionne la référence interne à 1.1 volts comme point de mesure, avec comme limite haute VCC */
-#if defined(__AVR_ATmega328P__)
-    ADMUX = 0x4E;
-#elif defined(__AVR_ATmega2560__)
-    ADCSRB &= ~(1 << MUX5);
-  ADMUX = 0x5E;
-#elif defined(__AVR_ATmega32U4__)
-  ADCSRB &= ~(1 << MUX5);
-  ADMUX = 0x5E;
-#endif
-    delayMicroseconds(200);
+    MotorTest(int number, int PIN_MOTOR):number(number),pin(PIN_MOTOR){
+        servo = new Servo();
+    }
 
-    /* Active le convertisseur analogique -> numérique */
-    ADCSRA |= (1 << ADEN);
+    Servo * getServo(){
+        return servo;
+    }
 
-    /* Lance une conversion analogique -> numérique */
-    ADCSRA |= (1 << ADSC);
+    void motorOff(){
+        servo->detach();
+        pinMode(pin, INPUT);
+    }
+    void motorOn(){
+        servo->attach(pin);
+        update();
+    }
 
-    /* Attend la fin de la conversion */
-    while(ADCSRA & (1 << ADSC));
+    int getAngle(){
+        return offset + angle;
+    }
+    void setOffset(int offset){
+        MotorTest::offset = offset;
+        update();
+    }
+    void saveOffset(){
+        saveOffset(getAngle());
+    }
+    void saveOffset(int angle){
+        offset = angle - ANGLE_MOTOR[number];
+        MotorTest::angle = ANGLE_MOTOR[number];
+        update();
+    }
+    void addAngle(int angle){
+        setAngle(MotorTest::angle + angle);
+    }
+    void setAngle(int angle){
+        MotorTest::angle = angle;
+        update();
+    }
 
-    /* Récupère le résultat de la conversion */
-    return ADCL | (ADCH << 8);
-}
+    void update(){
+        //if(servo->attached()) {
+            servo->write(getAngle());
+        //}
+    }
+
+    void print(){
+        Serial.print("Motor ");
+        Serial.print(number);
+        Serial.print(" :\t offset:");
+        Serial.print(offset);
+        Serial.print("\t angle:");
+        Serial.println(angle);
+    }
+};
+
 int stoi(String str);
 
-Motor** motors;
+MotorTest** motors;
 
 void setup(){
     Serial.begin(9600);
-    motors = new Motor*[NB_MOTOR];
+    motors = new MotorTest*[NB_MOTOR];
     Serial.println(NB_MOTOR);
     for(int i = 0; i< NB_MOTOR; i++) {
-        motors[i] = new Motor(i,PIN_MOTOR[i]);
+        motors[i] = new MotorTest(i,PIN_MOTOR[i]);
         motors[i]->setOffset(OFFSET_MOTOR[i]);
         motors[i]->setAngle(ANGLE_MOTOR[i]);
         motors[i]->motorOn();
@@ -103,6 +131,12 @@ void loop(){
                 case 'o':
                     motors[n]->setOffset(stoi(command.substring(3)));
                     break;
+                case 'm':
+                    motors[currentAlimMotor]->motorOff();
+                    currentAlimMotor = n;
+                    motors[currentAlimMotor]->motorOn();
+                    changeMotor = false;
+                    break;
             }
             motors[n]->print();
         }else if(command.indexOf("print") == 0){
@@ -113,6 +147,10 @@ void loop(){
             for(int i = 0; i< NB_MOTOR; i++) {
                 motors[i]->saveOffset();
             }
+        }else if(command.indexOf("showT") == 0){
+            showTention = !showTention;
+        }else if(command.indexOf("changeM") == 0){
+            changeMotor = !changeMotor;
         }else if(command.indexOf("offset") == 0){
             for(int i = 0; i< NB_MOTOR && command.indexOf(':') != -1; i++) {
                 command = command.substring(command.indexOf(':'));
@@ -128,18 +166,19 @@ void loop(){
 
     if(millis() > alt){
         alt += 1000;
-        Serial.println(tension_alim, 3);
+        if(showTention)Serial.println(tension_alim, 3);
 
-        motors[currentAlimMotor]->motorOff();
+        if(changeMotor) {
+            motors[currentAlimMotor]->motorOff();
 
-        if(currentAlimMotor < NB_MOTOR - 1) {
-            currentAlimMotor ++;
+            if (currentAlimMotor < NB_MOTOR - 1) {
+                currentAlimMotor++;
+            } else {
+                currentAlimMotor = 0;
+            }
+
+            motors[currentAlimMotor + 1]->motorOn();
         }
-        else{
-            currentAlimMotor = 0;
-        }
-
-        motors[currentAlimMotor+1]->motorOn();
 
     }
 
@@ -147,6 +186,7 @@ void loop(){
 
 }
 
+*/
 
 int stoi(String str) {
    int value = 0;
@@ -161,5 +201,17 @@ int stoi(String str) {
    return isNegatif ? -value : value;
 }
 
+Servo motorTest;
 
+void setup() {
+    Serial.begin(9600);
+    motorTest.attach(10);
+}
 
+void loop(){
+    if (Serial.available() > 0) {
+        String command = Serial.readString();
+        Serial.println(command);
+        motorTest.write(stoi(command));
+    }
+}

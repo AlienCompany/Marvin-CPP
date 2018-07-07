@@ -19,14 +19,14 @@ MAX7219 *myMatrix;
 const int PIN_BUTTON_MATRIX = 7;
 bool stateButton1;
 bool oldStateButtonMatrix;
-bool stateDisplay;
+bool stateDisplay = true;
 
 void setup() {
 
     myMatrix = new MAX7219(PIN_CLK, PIN_CS, PIN_DIN);
     myMatrix->init();
     myMatrix->setBrightness(5);
-    myMatrix->setShutdown(true);
+    //myMatrix->setShutdown(true);
 
     pinMode(PIN_BUTTON_MATRIX, INPUT_PULLUP);
 
@@ -39,9 +39,9 @@ void loop() {
 
     if(stateButton1 == LOW && oldStateButtonMatrix == HIGH) {
 
-        stateDisplay = !stateDisplay;
+        //stateDisplay = !stateDisplay;
 
-        myMatrix->setShutdown(!stateDisplay);
+       // myMatrix->setShutdown(!stateDisplay);
     }
 
     if(stateDisplay) {
