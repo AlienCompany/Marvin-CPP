@@ -28,7 +28,7 @@ const uint8_t PIN_CLK = 3;
 const uint8_t PIN_DIN = 4;
 
 const uint8_t PIN_MOTOR[] = {10, 11, 6, 5};
-const int OFFSET_MOTOR[] = {0, 11, 36, -44};
+const int OFFSET_MOTOR[] = {12, 5, 36, -44};
 const int ANGLE_MOTOR[] = {90, 90, 90, 90};
 
 const uint8_t *DEFILEMNT_I_LOVE_PSTJ_CHARS[] = {CHAR_I, CHAR_HEART, CHAR_P, CHAR_S, CHAR_T, CHAR_J};
@@ -90,11 +90,6 @@ void setup() {
     legs = new Legs(leftLeg, rightLeg);
     legs->init();
 
-    motorHip->motorOff();
-    motorKnee->motorOff();
-    motorAnkle->motorOff();
-    motorFoot->motorOff();
-
 
     myMatrix = new MAX7219(PIN_CLK, PIN_CS, PIN_DIN);
     myMatrix->init();
@@ -118,10 +113,14 @@ void onReceive(Commande &commande) {
                 }
             }else if(commande.data == BUTTON_MOTOR) {
                 if(legs->getCurrentAnnimation() == &LEG_ANNIM_WORLK){
+                    sendCommande(TEST_COMMANDE_RESAVE, 0xAA);
                     legs->changeAnnimation(&LEG_ANNIM_WAIT, false);
                 }else{
+                    sendCommande(TEST_COMMANDE_RESAVE, 0xBB);
                     legs->changeAnnimation(&LEG_ANNIM_WORLK, true);
                 }
+            } else{
+                sendCommande(TEST_COMMANDE_RESAVE, 0xCC00 + commande.data);
             }
             break;
         default:
@@ -132,6 +131,8 @@ void onReceive(Commande &commande) {
 void loop() {
 
     checkReceive();
+
+    legs->refresh();
 
     if (stateDisplay)matrixRefresh();
 

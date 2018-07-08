@@ -205,7 +205,7 @@ Servo motorTest;
 
 void setup() {
     Serial.begin(9600);
-    motorTest.attach(10);
+    motorTest.attach(11);
 }
 
 void loop(){

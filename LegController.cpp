@@ -12,11 +12,11 @@ LegState LegController::getState() const {
     return state;
 }
 
-float LegController::getAvancement() const {
+double LegController::getAvancement() const {
     return avancement;
 }
 
-float LegController::getVitesse() const {
+double LegController::getVitesse() const {
     return vitesse;
 }
 
@@ -38,10 +38,10 @@ void LegController::setState(LegState newState, float vitesse_) {
 void LegController::refrest() {
     if(isFix())return;
 
-    float oldAvancement = avancement;
+    double oldAvancement = avancement;
     avancement = min((millis() - startMove) * vitesse, 1);
-    float ratioNew = (avancement - oldAvancement)/(1 - oldAvancement);
-    float ratioOld = 1-ratioNew;
+    double ratioNew = (avancement - oldAvancement)/(1 - oldAvancement);
+    double ratioOld = 1-ratioNew;
 
     LegStateAngle targetAngles = LEG_STATES_MOTORS_DATA[state];
 

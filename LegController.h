@@ -14,9 +14,9 @@ class LegController {
 private:
     Leg* leg;
     LegState state;
-    float avancement = 0;
-    float vitesse = 0.0005; // avancement/ms exemple 0.001 => 1000 ms pour lattindre la position final
-    float startMove = millis();
+    double avancement = 0;
+    double vitesse = 0.0005; // avancement/ms exemple 0.001 => 1000 ms pour lattindre la position final
+    long startMove = millis();
 public:
 
     LegController(Leg *leg, LegState state);
@@ -29,9 +29,9 @@ public:
 
     LegState getState() const;
 
-    float getAvancement() const;
+    double getAvancement() const;
 
-    float getVitesse() const;
+    double getVitesse() const;
 
     virtual ~LegController();
 
