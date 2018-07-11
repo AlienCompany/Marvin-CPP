@@ -27,8 +27,8 @@ const uint8_t PIN_CS = 2;
 const uint8_t PIN_CLK = 3;
 const uint8_t PIN_DIN = 4;
 
-const uint8_t PIN_MOTOR[] = {10, 11, 6, 5};
-const int OFFSET_MOTOR[] = {12, 5, 36, -44};
+const uint8_t PIN_MOTOR[] = {11, 10, 6, 5};
+const int OFFSET_MOTOR[] = {6, 5, 36, -44};
 const int ANGLE_MOTOR[] = {90, 90, 90, 90};
 
 const uint8_t *DEFILEMNT_I_LOVE_PSTJ_CHARS[] = {CHAR_I, CHAR_HEART, CHAR_P, CHAR_S, CHAR_T, CHAR_J};
