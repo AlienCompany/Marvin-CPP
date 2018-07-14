@@ -16,7 +16,7 @@ enum MotorId{
 enum ButtonId{
     BUTTON_MATRIX = 0x01,
     BUTTON_MOTOR = 0x02,
-    BUTTON_POWER = 0x03
+    BUTTON_MATRIX2 = 0x03
 };
 
 enum CommandesId : uint8_t {

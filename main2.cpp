@@ -17,6 +17,10 @@ const uint8_t PIN_BUTTON_MATRIX = 8;
 bool stateButtonMatrix;
 bool oldStateButtonMatrix;
 
+const uint8_t PIN_BUTTON_MATRIX2 = 2;
+bool stateButtonMatrix2;
+bool oldStateButtonMatrix2;
+
 const uint8_t PIN_BUTTON_WALK = 7;
 bool stateButtonWalk;
 bool oldStateButtonWalk;
@@ -35,9 +39,9 @@ void setup() {
 
     pinMode(PIN_BUTTON_MATRIX, INPUT_PULLUP);
     pinMode(PIN_BUTTON_WALK, INPUT_PULLUP);
-   // pinMode(4, OUTPUT);
+    pinMode(4, OUTPUT);
 
-   // digitalWrite(4,LOW);
+    digitalWrite(4,LOW);
 
 }
 
@@ -68,12 +72,19 @@ void loop() {
     checkReceive();
 
     stateButtonMatrix = (bool) digitalRead(PIN_BUTTON_MATRIX);
+   // stateButtonMatrix2 = (bool) digitalRead(PIN_BUTTON_MATRIX2);
     stateButtonWalk = (bool) digitalRead(PIN_BUTTON_WALK);
 
 
     if(stateButtonMatrix == LOW && oldStateButtonMatrix == HIGH){
 
         sendCommande(COMMANDE_BUTTON,BUTTON_MATRIX);
+
+    }
+
+   if(stateButtonMatrix2 == LOW && oldStateButtonMatrix2 == HIGH){
+
+        sendCommande(COMMANDE_BUTTON,BUTTON_MATRIX2);
 
     }
 
@@ -84,5 +95,6 @@ void loop() {
     }
 
     oldStateButtonMatrix = stateButtonMatrix;
+    oldStateButtonMatrix2 = stateButtonMatrix2;
     oldStateButtonWalk = stateButtonWalk;
 }
