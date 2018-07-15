@@ -12,7 +12,8 @@ set(COMMON_CPPS
         Motor.cpp
         Max7219.cpp
         HcSr04.cpp
-        Util.cpp)
+        Util.cpp
+        FixBug.c)
 set(COMMON_HS
         Com.h
         PhysicalLeg.h
