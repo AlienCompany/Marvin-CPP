@@ -13,8 +13,8 @@ set(COMMON_CPPS
         Max7219.cpp
         HcSr04.cpp
         Util.cpp
-        FixBug.c)
-        ArrayAutoSize.cpp
+        FixBug.cpp
+        ArrayAutoSize.cpp)
 set(COMMON_HS
         Com.h
         PhysicalLeg.h
