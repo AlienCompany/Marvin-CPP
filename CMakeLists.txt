@@ -13,7 +13,7 @@ set(COMMON_CPPS
         Max7219.cpp
         HcSr04.cpp
         Util.cpp
-        FixBug.cpp
+        FixBug.c
         ArrayAutoSize.cpp)
 set(COMMON_HS
         Com.h
