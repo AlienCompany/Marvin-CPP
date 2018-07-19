@@ -14,6 +14,7 @@ set(COMMON_CPPS
         HcSr04.cpp
         Util.cpp
         FixBug.c)
+        ArrayAutoSize.cpp
 set(COMMON_HS
         Com.h
         PhysicalLeg.h
@@ -26,6 +27,7 @@ set(COMMON_HS
         Motor.h
         Max7219.h
         HcSr04.h
+        ArrayAutoSize.h
         Util.h)
 
 set(PROJECT_BOARD pro)
@@ -65,7 +67,7 @@ set(${PROJECT_BOARD}.upload.maximum_data_size 2048)
 
 set(PORT COM15)
 # ==================== ALL TEST : BEGIN ====================
-FOREACH(TESTNAME "ComB1" "ComB2" "MatriceLed" "Moteur" "UltraSon")
+FOREACH(TESTNAME "ComB1" "ComB2" "MatriceLed" "Moteur" "UltraSon" "Debug")
     # -------------------- MarvinTest : BEGIN --------------------
     set(PROJECT_NAME_TEST MarvinTest${TESTNAME})
     project(${PROJECT_NAME_TEST})
