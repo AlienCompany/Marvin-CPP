@@ -39,6 +39,8 @@ void setup() {
 
     pinMode(PIN_BUTTON_MATRIX, INPUT_PULLUP);
     pinMode(PIN_BUTTON_WALK, INPUT_PULLUP);
+    pinMode(PIN_BUTTON_MATRIX2, INPUT_PULLUP);
+
     pinMode(4, OUTPUT);
 
     digitalWrite(4,LOW);
@@ -72,7 +74,7 @@ void loop() {
     checkReceive();
 
     stateButtonMatrix = (bool) digitalRead(PIN_BUTTON_MATRIX);
-   // stateButtonMatrix2 = (bool) digitalRead(PIN_BUTTON_MATRIX2);
+    stateButtonMatrix2 = (bool) digitalRead(PIN_BUTTON_MATRIX2);
     stateButtonWalk = (bool) digitalRead(PIN_BUTTON_WALK);
 
 
@@ -90,7 +92,7 @@ void loop() {
 
     if(stateButtonWalk == LOW && oldStateButtonWalk == HIGH){
 
-        sendCommande(COMMANDE_BUTTON,BUTTON_MOTOR);
+        sendCommande(COMMANDE_BUTTON,BUTTON_MATRIX2);
 
     }
 

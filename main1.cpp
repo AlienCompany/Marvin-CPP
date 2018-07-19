@@ -110,13 +110,15 @@ void setup() {
     myMatrix->setBrightness(4);
     myMatrix->writeCharacter(CHAR_SMILE);
 
-
 }
 
 void onReceive(Commande &commande) {
     switch (commande.id) {
         case COMMANDE_BUTTON:
+            sendCommande(TEST_COMMANDE_RESAVE, 0xCC0500 + commande.data);
+            digitalWrite(13,LOW);
             if(commande.data == BUTTON_MATRIX) {
+                sendCommande(TEST_COMMANDE_RESAVE, 0xCC0400 + commande.data);
                 // Check if DEFILEMENT_I_LOVE_PSTJ is the current annimation
                 if(ledDislayAnnimation && currentDefilement == &DEFILEMENT_I_LOVE_PSTJ){
                     ledDislayAnnimation = false;
@@ -129,6 +131,7 @@ void onReceive(Commande &commande) {
                     nextAvancement = millis() + matrixDeley;
                 }
             }else if(commande.data == BUTTON_MOTOR) {
+                sendCommande(TEST_COMMANDE_RESAVE, 0xCC0300 + commande.data);
                 if(legs->getCurrentAnnimation() == &LEG_ANNIM_WORLK){
                     sendCommande(TEST_COMMANDE_RESAVE, 0xAA);
                     legs->changeAnnimation(&LEG_ANNIM_WAIT, false);
@@ -137,13 +140,18 @@ void onReceive(Commande &commande) {
                     legs->changeAnnimation(&LEG_ANNIM_WORLK, true);
                 }
             }else if(commande.data == BUTTON_MATRIX2) {
+                digitalWrite(13,HIGH);
                 // Check if DEFILEMENT_BONJOUR_JE_SUIS_MARVIN is the current annimation
                 if(ledDislayAnnimation && currentDefilement == &DEFILEMENT_BONJOUR_JE_SUIS_MARVIN){
+                    sendCommande(TEST_COMMANDE_RESAVE, 0xCC0100 + commande.data);
                     // 1) we stop the annimation syteme
                     ledDislayAnnimation = false;
                     // 2) we display the smile :)
+                    // et mnt? rien
                     myMatrix->writeCharacter(CHAR_SMILE);
                 }else{
+                    sendCommande(TEST_COMMANDE_RESAVE, 0xCC0200 + commande.data);
+                    digitalWrite(13,HIGH);
                     // 1) we define the annimation to show
                     currentDefilement = &DEFILEMENT_BONJOUR_JE_SUIS_MARVIN;
                     // 2) we set the position of annimation to 0
@@ -155,12 +163,15 @@ void onReceive(Commande &commande) {
                     ledDislayAnnimation = true;
                 }
             }else{
-                sendCommande(TEST_COMMANDE_RESAVE, 0xCC00 + commande.data);
+                sendCommande(TEST_COMMANDE_RESAVE, 0xCC0000 + commande.data);
             }
             break;
         default:
             break;
     }
+
+    pinMode(13, OUTPUT);
+    digitalWrite(13,LOW);
 }
 
 void loop() {
