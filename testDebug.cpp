@@ -5,7 +5,7 @@
 
 void setup(){
     Serial.begin(9600);
-    Serial.print('TEST');
+    Serial.print("TEST");
 }
 
 void loop(){
