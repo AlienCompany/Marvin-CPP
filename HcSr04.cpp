@@ -40,7 +40,13 @@ float HcSr04::measureDistance() {
     /* 3. Calcul la distance à partir du temps mesuré */
     lastDistance = measure / 2.0 * SOUND_SPEED;
 
-    return lastDistance;
+//  "measureDistance" => mesurer la distance (pas faire autre chose)
+//  si tu veux faire autre chose une fois la measure fait le aprés la mesure (cf main2.cpp[81])
+//  sauf si ca fait vraiment partie de la "measure" comme par exemple la correstion de la distance car la distance réel et toujours 10cm plus loin que celle mesurer
+//    if(lastDistance <= 200){
+//        sendCommande(COMMANDE_ULTRASON,)
+//    }
 
+    return lastDistance;
 }
 

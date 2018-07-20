@@ -22,6 +22,8 @@ enum ButtonId{
 enum CommandesId : uint8_t {
     COMMANDE_BUTTON = 0x01, // data is number button
     COMMANDE_LEG = 0x02, // data1 = motorId, data2 = angleMoteur
+    COMMANDE_ULTRASON = 0x03, //
+
 
     TEST_COMMANDE_ALLUMER_LED = 0xF1, // data = time ms
     TEST_COMMANDE_RESAVE = 0xF2,

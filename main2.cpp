@@ -27,6 +27,8 @@ bool oldStateButtonWalk;
 
 PhysicalLeg *rightLeg;
 
+HcSr04 *ultraSon;
+
 void setup() {
     Serial.begin(9600);
 
@@ -44,6 +46,9 @@ void setup() {
     pinMode(4, OUTPUT);
 
     digitalWrite(4,LOW);
+
+    ultraSon = new HcSr04(13,12);
+    ultraSon->init();
 
 }
 
@@ -72,6 +77,10 @@ void onReceive(Commande &commande) {
 void loop() {
 
     checkReceive();
+    float distance = ultraSon->measureDistance();
+    if(distance <= 200){
+//        sendCommande(COMMANDE_ULTRASON,)
+    }
 
     stateButtonMatrix = (bool) digitalRead(PIN_BUTTON_MATRIX);
     stateButtonMatrix2 = (bool) digitalRead(PIN_BUTTON_MATRIX2);
@@ -99,4 +108,6 @@ void loop() {
     oldStateButtonMatrix = stateButtonMatrix;
     oldStateButtonMatrix2 = stateButtonMatrix2;
     oldStateButtonWalk = stateButtonWalk;
+
+
 }

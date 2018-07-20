@@ -147,7 +147,7 @@ void onReceive(Commande &commande) {
                     // 1) we stop the annimation syteme
                     ledDislayAnnimation = false;
                     // 2) we display the smile :)
-                    // et mnt? rien
+
                     myMatrix->writeCharacter(CHAR_SMILE);
                 }else{
                     sendCommande(TEST_COMMANDE_RESAVE, 0xCC0200 + commande.data);
