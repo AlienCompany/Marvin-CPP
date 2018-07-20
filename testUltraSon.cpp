@@ -5,6 +5,7 @@ HcSr04 *ultraSon;
 
 void setup(){
 
+    Serial.begin(9600);
     ultraSon = new HcSr04(13,12);
     ultraSon->init();
 
@@ -12,6 +13,6 @@ void setup(){
 
 void loop(){
 
-  ultraSon->measureDistance();
+  Serial.println(ultraSon->measureDistance());
 
 };
