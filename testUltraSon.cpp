@@ -5,7 +5,7 @@ HcSr04 *ultraSon;
 
 void setup(){
 
-    ultraSon = new HcSr04(6,7);
+    ultraSon = new HcSr04(13,12);
     ultraSon->init();
 
 };
