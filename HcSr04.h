@@ -13,15 +13,14 @@ private:
     const uint8_t PIN_ECHO;
     const uint8_t PIN_TRIGG;
 
-    float lastDistance;
+     int lastDistance;
 
     const unsigned long MEASURE_TIMEOUT = 25000UL; // 25ms = ~8m à 340m/s
-    const float SOUND_SPEED = 340.0 / 1000;
+    const float SOUND_SPEED = 340.0 / 1000; // en mm/microSec
 
 
 
 public:
-
     HcSr04(uint8_t PIN_ECHO, uint8_t PIN_TRIGG);
 
     virtual ~HcSr04();
@@ -32,9 +31,17 @@ public:
 
     const uint8_t getPIN_TRIGG() const;
 
-    float getLastDistance() const;
+    /**
+     * ca permet de générer un doc du programe et normalement tu peut plus facilement comprendre comment fonctionne un fonction quand tu veux l'utiliser
+     * @return la derniére valeur mesurer pas measureDistance()
+     */
+    int getLastDistance() const;
 
-    float measureDistance();
+    /**
+     *
+     * @return retourn la valeur mesurer en metre en jsp car ultra son mesure en mm
+     */
+    int measureDistance();
 
 
 };

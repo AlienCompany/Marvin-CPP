@@ -23,11 +23,11 @@ const uint8_t HcSr04::getPIN_TRIGG() const {
     return PIN_TRIGG;
 }
 
-float HcSr04::getLastDistance() const {
+int HcSr04::getLastDistance() const {
     return lastDistance;
 }
 
-float HcSr04::measureDistance() {
+int HcSr04::measureDistance() {
 
     /* 1. Lance une mesure de distance en envoyant une impulsion HIGH de 10µs sur la broche TRIGGER */
     digitalWrite(PIN_TRIGG, HIGH);
@@ -38,9 +38,9 @@ float HcSr04::measureDistance() {
     long measure = pulseIn(PIN_ECHO, HIGH, MEASURE_TIMEOUT);
 
     /* 3. Calcul la distance à partir du temps mesuré */
-    lastDistance = measure / 2.0 * SOUND_SPEED;
+    lastDistance = (int) round(measure / 2.0 * SOUND_SPEED); //en mm
+
 
     return lastDistance;
-
 }
 

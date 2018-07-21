@@ -13,6 +13,11 @@ void setup(){
 
 void loop(){
 
-  Serial.println(ultraSon->measureDistance());
+    float distance;
+    distance = ultraSon->measureDistance();
+    Serial.println(distance);
 
+//    if(distance <= 200){
+//        sendCommande(COMMANDE_ULTRASON,)
+//    }
 };
