@@ -14,22 +14,46 @@ void checkReceive(){
     }
 }
 
+String SerialReadStringUntil(uint8_t length){
+    char* data = new char[length+1];
+    Serial.readBytes(data,length);
+    data[length] = '\0';
+    return String(data);
+}
+
 bool debugReceive(Commande commande) {
+    if(commande.id < 0xD0 || commande.id>0xEF) return false;
+    Commande_8 commande8 = to_8(commande);// je fait just un petit tuc
+    String s0 = SerialReadStringUntil(commande8.data0);
+    String s1 = SerialReadStringUntil(commande8.data1);
+    String s2 = SerialReadStringUntil(commande8.data2);
+    String s3 = SerialReadStringUntil(commande8.data3);
+
 
     switch (commande.id){
-        COMMANDE_DEBUG_SCOP = 0xD0,
-        COMMANDE_DEBUG_DEL_SCOP = 0xD1,
-        COMMANDE_DEBUG_ADD_VAR = 0xD2,
-        COMMANDE_DEBUG_DEL_VAR = 0xD3,
-        COMMANDE_DEBUG_ONCHANGE_VAR = 0xD4,
-        COMMANDE_DEBUG_LOG = 0xD5,
+        case COMMANDE_DEBUG_SCOP:
+            break;
+        case COMMANDE_DEBUG_DEL_SCOP:
+            break;
+        case COMMANDE_DEBUG_ADD_VAR:
+            break;
+        case COMMANDE_DEBUG_DEL_VAR:
+            break;
+        case COMMANDE_DEBUG_ONCHANGE_VAR:
+            break;
+        case COMMANDE_DEBUG_LOG:
+            break;
 
-        COMMANDE_DEBUG_SET_VAR = 0xE5,
-        COMMANDE_DEBUG_PAUSE = 0xE1,
-        COMMANDE_DEBUG_PLAY = 0xE0,
-        COMMANDE_DEBUG_STOPTIME = 0xE0,
+        case COMMANDE_DEBUG_SET_VAR:
+            break;
+        case COMMANDE_DEBUG_PAUSE:
+            break;
+        case COMMANDE_DEBUG_PLAY:
+            break;
+        case COMMANDE_DEBUG_STOPTIME:
+            break;
     }
-    return false;
+    return true;
 }
 
 void sendCommande(CommandesId id, uint32_t data){

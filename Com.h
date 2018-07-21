@@ -34,17 +34,18 @@ enum CommandesId : uint8_t {
     TEST_COMMANDE_ALLUMER_LED = 0xF1, // data = time ms
     TEST_COMMANDE_RESAVE = 0xF2,
 
+            // 0xDX => commandeDebug(type1)
     COMMANDE_DEBUG_SCOP = 0xD0,
     COMMANDE_DEBUG_DEL_SCOP = 0xD1,
     COMMANDE_DEBUG_ADD_VAR = 0xD2,
     COMMANDE_DEBUG_DEL_VAR = 0xD3,
     COMMANDE_DEBUG_ONCHANGE_VAR = 0xD4,
     COMMANDE_DEBUG_LOG = 0xD5,
-
-    COMMANDE_DEBUG_SET_VAR = 0xE5,
-    COMMANDE_DEBUG_PAUSE = 0xE1,
-    COMMANDE_DEBUG_PLAY = 0xE0,
-    COMMANDE_DEBUG_STOPTIME = 0xE0,
+            // 0xEX => commandeDebug(type1)
+    COMMANDE_DEBUG_SET_VAR = 0xE1,
+    COMMANDE_DEBUG_PAUSE = 0xE2,
+    COMMANDE_DEBUG_PLAY = 0xE3,
+    COMMANDE_DEBUG_STOPTIME = 0xE4,
 };
 enum d_types: uint8_t{
     UINT64_T = 0x01,
@@ -143,5 +144,16 @@ void d_addVar(String scop, String name, int8_t &value);
 void d_addVar(String scop, String name, float &value);
 void d_addVar(String scop, String name, double &value);
 void d_addVar(String scop, String name, char &value);
+void d_addVar(String scop, String name, uint64_t *value);
+void d_addVar(String scop, String name, uint32_t *value);
+void d_addVar(String scop, String name, uint16_t *value);
+void d_addVar(String scop, String name, uint8_t *value);
+void d_addVar(String scop, String name, int64_t *value);
+void d_addVar(String scop, String name, int32_t *value);
+void d_addVar(String scop, String name, int16_t *value);
+void d_addVar(String scop, String name, int8_t *value);
+void d_addVar(String scop, String name, float *value);
+void d_addVar(String scop, String name, double *value);
+void d_addVar(String scop, String name, char *value);
 
 #endif //TEST2_COM_H
