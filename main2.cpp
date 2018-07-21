@@ -25,6 +25,9 @@ const uint8_t PIN_BUTTON_WALK = 7;
 bool stateButtonWalk;
 bool oldStateButtonWalk;
 
+bool stateMouth;
+bool oldStateMouth;
+
 PhysicalLeg *rightLeg;
 
 HcSr04 *ultraSon;
@@ -77,9 +80,18 @@ void onReceive(Commande &commande) {
 void loop() {
 
     checkReceive();
-    float distance = ultraSon->measureDistance();
-    if(distance <= 200){
-//        sendCommande(COMMANDE_ULTRASON,)
+    ultraSon->measureDistance();
+
+    int lastDistance =  ultraSon->getLastDistance();
+
+    stateMouth = lastDistance <= 120;
+
+    if(stateMouth != oldStateMouth) { // on doit envoyer une commande car il y a un changement d'etat
+        if (stateMouth) { // stateMouth == true
+            sendCommande(COMMANDE_ULTRASON, NEAR_OBJECT);
+        } else {
+            sendCommande(COMMANDE_ULTRASON, NO_NEAR_OBJECT);
+        }
     }
 
     stateButtonMatrix = (bool) digitalRead(PIN_BUTTON_MATRIX);
@@ -108,6 +120,7 @@ void loop() {
     oldStateButtonMatrix = stateButtonMatrix;
     oldStateButtonMatrix2 = stateButtonMatrix2;
     oldStateButtonWalk = stateButtonWalk;
+    oldStateMouth = stateMouth;
 
 
 }

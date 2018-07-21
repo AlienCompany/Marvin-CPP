@@ -144,28 +144,38 @@ void onReceive(Commande &commande) {
                 // Check if DEFILEMENT_BONJOUR_JE_SUIS_MARVIN is the current annimation
                 if(ledDislayAnnimation && currentDefilement == &DEFILEMENT_BONJOUR_JE_SUIS_MARVIN){
                     sendCommande(TEST_COMMANDE_RESAVE, 0xCC0100 + commande.data);
-                    // 1) we stop the annimation syteme
+                    // 1) we stop the animation syteme
                     ledDislayAnnimation = false;
                     // 2) we display the smile :)
-
                     myMatrix->writeCharacter(CHAR_SMILE);
                 }else{
                     sendCommande(TEST_COMMANDE_RESAVE, 0xCC0200 + commande.data);
                     digitalWrite(13,HIGH);
-                    // 1) we define the annimation to show
+                    // 1) we define the animation to show
                     currentDefilement = &DEFILEMENT_BONJOUR_JE_SUIS_MARVIN;
-                    // 2) we set the position of annimation to 0
+                    // 2) we set the position of animation to 0
                     matrixAvancement = 0;
                     matrixAvancementDecalage = 0;
-                    // 3) we defined when the annimation will start (don't forgot it)
+                    // 3) we defined when the animation will start (don't forgot it)
                     nextAvancement = millis() + matrixDeley;
-                    // 4) start the annimation system
+                    // 4) start the animation system
                     ledDislayAnnimation = true;
                 }
             }else{
                 sendCommande(TEST_COMMANDE_RESAVE, 0xCC0000 + commande.data);
             }
             break;
+        case COMMANDE_ULTRASON:
+            if(commande.data == NEAR_OBJECT) {
+                // 1) we stop the animation syteme
+                ledDislayAnnimation = false;
+                // 2) we display the smile :)
+                myMatrix->writeCharacter(CHAR_MOUTH);
+            }else if(commande.data == NO_NEAR_OBJECT){
+                ledDislayAnnimation = false;
+                myMatrix->writeCharacter(CHAR_SMILE);
+            }
+            //
         default:
             break;
     }
